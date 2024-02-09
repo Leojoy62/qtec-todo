@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(() => {
+    const storedTasks = localStorage.getItem("tasks");
+    return storedTasks ? JSON.parse(storedTasks) : [];
+  });
   const [newTask, setNewTask] = useState("");
   const [priority, setPriority] = useState("low");
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editedTaskText, setEditedTaskText] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleChange = (event) => {
     setNewTask(event.target.value);
