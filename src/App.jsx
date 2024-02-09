@@ -10,7 +10,9 @@ function App() {
   const [priority, setPriority] = useState("low");
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editedTaskText, setEditedTaskText] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState("all");
 
+  //set tasks in local storage
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -21,6 +23,10 @@ function App() {
 
   const handlePriorityChange = (event) => {
     setPriority(event.target.value);
+  };
+
+  const handleFilterChange = (event) => {
+    setPriorityFilter(event.target.value);
   };
 
   const addTask = () => {
@@ -71,6 +77,12 @@ function App() {
     high: "#F44336",
   };
 
+  //Priority filtering
+  const priorityFilteredTaks =
+    priorityFilter === "all"
+      ? tasks
+      : tasks.filter((task) => task.priority === priorityFilter);
+
   return (
     <div className="App">
       <h1>Todo List</h1>
@@ -88,12 +100,21 @@ function App() {
         </select>
         <button onClick={addTask}>Add</button>
       </div>
+      <div>
+        <label>Filter by Priority:</label>
+        <select value={priorityFilter} onChange={handleFilterChange}>
+          <option value="all">All</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
       <div className="task-list">
         <h2>Tasks</h2>
         <p>Total tasks: {tasks.length}</p>
         <p>Completed tasks: {tasks.filter((task) => task.completed).length}</p>
         <ul>
-          {tasks.map((task) => (
+          {priorityFilteredTaks.map((task) => (
             <li
               key={task.id}
               className={task.completed ? "completed" : ""}
