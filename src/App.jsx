@@ -84,40 +84,64 @@ function App() {
       : tasks.filter((task) => task.priority === priorityFilter);
 
   return (
-    <div className="App">
-      <h1>Todo List</h1>
-      <div className="input-container">
+    <div className="flex flex-col justify-center items-center">
+      <div className="bg-green-600 w-full my-4 flex justify-between px-2">
+        <h1 className="my-5 text-center text-white font-bold  text-2xl">
+          QTEC Todo List
+        </h1>
+        <div className="self-center">
+          <label className="font-semibold">Filter by Priority:</label>
+          <select
+            className="rounded-lg p-2 bg-green-600 text-white"
+            value={priorityFilter}
+            onChange={handleFilterChange}
+          >
+            <option value="all">All</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div>
+      <div className="flex gap-2 justify-center items-center mb-3">
         <input
           type="text"
           placeholder="Add a new task"
           value={newTask}
           onChange={handleChange}
+          className="input input-bordered input-success  h-12"
         />
-        <select value={priority} onChange={handlePriorityChange}>
+        <select
+          className="ml-2 border-2 border-green-600 rounded-lg h-12"
+          value={priority}
+          onChange={handlePriorityChange}
+        >
           <option value="low">Low</option>
           <option value="medium">Medium</option>
           <option value="high">High</option>
         </select>
-        <button onClick={addTask}>Add</button>
+        <button className="btn btn-success text-white" onClick={addTask}>
+          Add
+        </button>
       </div>
-      <div>
-        <label>Filter by Priority:</label>
-        <select value={priorityFilter} onChange={handleFilterChange}>
-          <option value="all">All</option>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
+      <div className="flex gap-4">
+        <h2 className="text-xl font-semibold">Total Tasks: {tasks.length}</h2>
+        <div className="flex gap-1">
+          <p className="bg-green-600 p-1 text-white rounded">Low</p>
+          <p className="bg-yellow-400 p-1 text-white rounded">Med</p>
+          <p className="bg-red-600 p-1 text-white rounded">High</p>
+        </div>
+        <h2 className="text-xl font-semibold">
+          Completed Tasks: {tasks.filter((task) => task.completed).length}
+        </h2>
       </div>
-      <div className="task-list">
-        <h2>Tasks</h2>
-        <p>Total tasks: {tasks.length}</p>
-        <p>Completed tasks: {tasks.filter((task) => task.completed).length}</p>
+
+      <div className="mt-5 w-3/5">
         <ul>
           {priorityFilteredTaks.map((task) => (
             <li
               key={task.id}
-              className={task.completed ? "completed" : ""}
+              className="border-2 mb-2 px-2 py-3 rounded-lg "
               style={{ borderColor: priorityColors[task.priority] }}
             >
               {editingTaskId === task.id ? (
@@ -127,20 +151,37 @@ function App() {
                     value={editedTaskText}
                     onChange={handleEditChange}
                   />
-                  <button onClick={() => saveEditedTask(task.id)}>Save</button>
+                  <button
+                    className="btn btn-sm bg-green-600 text-white"
+                    onClick={() => saveEditedTask(task.id)}
+                  >
+                    Save
+                  </button>
                 </>
               ) : (
                 <>
-                  <div className="flex">
-                    <span>{task.text}</span>
-                    <div className="actions">
-                      <button onClick={() => toggleTaskCompletion(task.id)}>
-                        {task.completed ? "Undo" : "Complete"}
+                  <div>
+                    <div className="flex justify-between">
+                      <h1>{task.text}</h1>
+                      <p style={{ color: task.completed ? "green" : "red" }}>
+                        {task.completed ? "Completed" : "Incomplete"}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        className="btn btn-sm bg-green-600 text-white"
+                        onClick={() => toggleTaskCompletion(task.id)}
+                      >
+                        {task.completed ? "Incomplete" : "Complete"}
                       </button>
-                      <button onClick={() => deleteTask(task.id)}>
+                      <button
+                        className="btn btn-sm bg-red-600 text-white"
+                        onClick={() => deleteTask(task.id)}
+                      >
                         Delete
                       </button>
                       <button
+                        className="btn btn-sm bg-yellow-500 text-white"
                         onClick={() => startEditingTask(task.id, task.text)}
                       >
                         Edit
@@ -158,3 +199,36 @@ function App() {
 }
 
 export default App;
+{
+  /* <div className="flex">
+        <input
+          type="text"
+          placeholder="Add a new task"
+          value={newTask}
+          onChange={handleChange}
+          className="input input-bordered input-success  h-12"
+        />
+        <select
+          className="ml-2 border-2 border-green-600 rounded-lg h-12"
+          value={priority}
+          onChange={handlePriorityChange}
+        >
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <div className="flex">
+          <label>Filter by Priority:</label>
+          <select
+            className="ml-2 border-2 border-green-600 rounded-lg h-12"
+            value={priorityFilter}
+            onChange={handleFilterChange}
+          >
+            <option value="all">All</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div> */
+}
