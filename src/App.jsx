@@ -87,7 +87,7 @@ function App() {
     <div className="flex flex-col justify-center items-center">
       <div className="bg-green-600 w-full my-4 flex justify-between px-2">
         <h1 className="my-5 text-center text-white font-bold  text-2xl">
-          QTEC Todo List
+          QTEC Todo
         </h1>
         <div className="self-center">
           <label className="font-semibold">Filter by Priority:</label>
